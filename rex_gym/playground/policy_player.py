@@ -33,7 +33,7 @@ class PolicyPlayer:
         network = config.network
         checkpoint = os.path.join(policy_dir, flag_mapper.ENV_ID_TO_POLICY[policy_id][1])
         with tf.Session() as sess:
-            agent = simple_ppo_agent.SimplePPOPolicy(sess,
+            agent = simple_ppo_agent.SimplePPOAgent(sess,
                                                      env,
                                                      network,
                                                      policy_layers=policy_layers,

@@ -4,7 +4,7 @@ from . import normalize
 from ..scripts import utility
 
 
-class SimplePPOPolicy(object):
+class SimplePPOAgent(object):
     """A simple PPO policy that is independent to the PPO infrastructure.
 
   This class restores the policy network from a tensorflow checkpoint that was
