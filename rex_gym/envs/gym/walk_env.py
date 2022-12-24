@@ -14,7 +14,7 @@ from ...model.kinematics import InverseKinematics
 NUM_LEGS = 4
 
 
-class RexWalkEnv(rex_gym_env.RexGymEnv):
+class RexWalkEnv(rex_gym_env.DynamicEnv):
     """The gym environment for the rex.
 
   It simulates the locomotion of a rex, a quadruped robot. The state space

@@ -17,7 +17,7 @@ NUM_LEGS = 4
 STEP_PERIOD = 1.0 / 10.0  # 10 steps per second.
 
 
-class RexTurnEnv(rex_gym_env.RexGymEnv):
+class RexTurnEnv(rex_gym_env.DynamicEnv):
     """The gym environment for the rex.
     It simulates the locomotion of a rex, a quadruped robot. The state space
     include the angles, velocities and torques for all the motors and the action

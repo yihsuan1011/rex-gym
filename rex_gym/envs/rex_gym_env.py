@@ -658,3 +658,17 @@ class RexGymEnv(gym.Env):
     @property
     def env_step_counter(self):
         return self._env_step_counter
+    
+    
+    
+class StaticEnv(RexGymEnv):
+    def __init__(self):
+        RexGymEnv.__init__(self)
+    
+class DynamicEnv(RexGymEnv):
+    def __init__(self):
+        RexGymEnv.__init__(self)
+    
+
+    
+    

@@ -26,7 +26,7 @@ RexPose = collections.namedtuple(
                "shoulder_angle_4, leg_angle_4, foot_angle_4")
 
 
-class RexReactiveEnv(rex_gym_env.RexGymEnv):
+class RexReactiveEnv(rex_gym_env.DynamicEnv):
     """The gym environment for Rex.
 
   It simulates the locomotion of Rex, a quadruped robot. The state space

@@ -14,7 +14,7 @@ NUM_LEGS = 4
 NUM_MOTORS = 3 * NUM_LEGS
 
 
-class RexStandupEnv(rex_gym_env.RexGymEnv):
+class RexStandupEnv(rex_gym_env.StaticEnv):
     """The gym environment for the rex.
 
   It simulates the locomotion of a rex, a quadruped robot. The state space
