@@ -115,28 +115,5 @@ class GaitPlanner:
             for j in range(3):
                 self._frame[i, j] = frames[i, j] + step_coord[j]
         
-        # step_coord = self.step_trajectory(self._phi + self._offset[0], v, angle, w_rot,
-        #                                   np.squeeze(np.asarray(frames[0, :])), direction)  # FR
-        # self._frame[0, 0] = frames[0, 0] + step_coord[0]
-        # self._frame[0, 1] = frames[0, 1] + step_coord[1]
-        # self._frame[0, 2] = frames[0, 2] + step_coord[2]
-
-        # step_coord = self.step_trajectory(self._phi + self._offset[1], v, angle, w_rot,
-        #                                   np.squeeze(np.asarray(frames[1, :])), direction)  # FL
-        # self._frame[1, 0] = frames[1, 0] + step_coord[0]
-        # self._frame[1, 1] = frames[1, 1] + step_coord[1]
-        # self._frame[1, 2] = frames[1, 2] + step_coord[2]
-
-        # step_coord = self.step_trajectory(self._phi + self._offset[2], v, angle, w_rot,
-        #                                   np.squeeze(np.asarray(frames[2, :])), direction)  # BR
-        # self._frame[2, 0] = frames[2, 0] + step_coord[0]
-        # self._frame[2, 1] = frames[2, 1] + step_coord[1]
-        # self._frame[2, 2] = frames[2, 2] + step_coord[2]
-
-        # step_coord = self.step_trajectory(self._phi + self._offset[3], v, angle, w_rot,
-        #                                   np.squeeze(np.asarray(frames[3, :])), direction)  # BL
-        # self._frame[3, 0] = frames[3, 0] + step_coord[0]
-        # self._frame[3, 1] = frames[3, 1] + step_coord[1]
-        # self._frame[3, 2] = frames[3, 2] + step_coord[2]
         
         return self._frame

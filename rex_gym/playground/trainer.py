@@ -8,12 +8,10 @@ import platform
 import gym
 import tensorflow.compat.v1 as tf
 
-from rex_gym.agents.tools import wrappers
 from rex_gym.agents.scripts import configs, utility
-from rex_gym.agents.tools.attr_dict import AttrDict
-from rex_gym.agents.tools.loop import Loop
 from rex_gym.util import flag_mapper
 
+from rex_gym.agents.tools.toolbox import Toolbox
 
 class Trainer:
     def __init__(self, env_id: str, args: dict, playground: bool, log_dir: str, agents_number, signal_type):
@@ -46,10 +44,10 @@ class Trainer:
             self.args['signal_type'] = self.signal_type
         env = gym.make(config.env, **self.args)
         if config.max_length:
-            env = wrappers.LimitDuration(env, config.max_length)
-        env = wrappers.RangeNormalize(env)
-        env = wrappers.ClipAction(env)
-        env = wrappers.ConvertTo32Bit(env)
+            env = Toolbox._limit_duration(env, config.max_length)
+        env = Toolbox._range_normalize(env)
+        env = Toolbox._clip_action(env)
+        env = Toolbox._convert_to_32_bit(env)
         return env
 
     @staticmethod
@@ -65,7 +63,7 @@ class Trainer:
           Returns:
             Loop object.
         """
-        loop = Loop(logdir, graph.step, graph.should_log, graph.do_report, graph.force_reset)
+        loop = Toolbox._loop(logdir, graph.step, graph.should_log, graph.do_report, graph.force_reset)
         loop.add_phase('train',
                        graph.done,
                        graph.score,
@@ -130,7 +128,7 @@ class Trainer:
         utility.set_up_logging()
         timestamp = datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
         full_logdir = os.path.expanduser(os.path.join(self.log_dir, '{}-{}'.format(timestamp, self.env_id)))
-        config = AttrDict(getattr(configs, self.env_id)())
+        config = Toolbox._attr_dict(getattr(configs, self.env_id)())
         config = utility.save_config(config, full_logdir)
         os_name = platform.system()
         enable_processes = False if os_name == 'Windows' else True

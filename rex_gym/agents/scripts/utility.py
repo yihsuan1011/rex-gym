@@ -20,12 +20,7 @@ import warnings
 import ruamel.yaml as yaml
 import tensorflow as tf
 
-from rex_gym.agents.tools import wrappers
-from rex_gym.agents.tools.attr_dict import AttrDict
-from rex_gym.agents.tools.batch_env import BatchEnv
-from rex_gym.agents.tools.count_weights import count_weights
-from rex_gym.agents.tools.in_graph_batch_env import InGraphBatchEnv
-from rex_gym.agents.tools.simulate import simulate
+from rex_gym.agents.tools.toolbox import Toolbox
 
 warnings.simplefilter('ignore', yaml.error.UnsafeLoaderWarning)
 warnings.simplefilter('ignore', yaml.error.ReusedAnchorWarning)
@@ -48,10 +43,10 @@ def define_simulation_graph(batch_env, algo_cls, config):
     do_report = tf.compat.v1.placeholder(tf.bool, name='do_report')
     force_reset = tf.compat.v1.placeholder(tf.bool, name='force_reset')
     algo = algo_cls(batch_env, step, is_training, should_log, config)
-    done, score, summary = simulate(batch_env, algo, should_log, force_reset)
+    done, score, summary = Toolbox._simulate(batch_env, algo, should_log, force_reset)
     message = 'Graph contains {} trainable variables.'
-    tf.compat.v1.logging.info(message.format(count_weights()))
-    return AttrDict(locals())
+    tf.compat.v1.logging.info(message.format(Toolbox._count_weights()))
+    return Toolbox._attr_dict(locals())
 
 
 def define_batch_env(constructor, num_agents, env_processes):
@@ -67,11 +62,11 @@ def define_batch_env(constructor, num_agents, env_processes):
   """
     with tf.compat.v1.variable_scope('environments'):
         if env_processes:
-            envs = [wrappers.ExternalProcess(constructor) for _ in range(num_agents)]
+            envs = [Toolbox._external_process(constructor) for _ in range(num_agents)]
         else:
             envs = [constructor() for _ in range(num_agents)]
-        batch_env = BatchEnv(envs, blocking=not env_processes)
-        batch_env = InGraphBatchEnv(batch_env)
+        batch_env = Toolbox._batch_env(envs, blocking=not env_processes)
+        batch_env = Toolbox._in_graph__batch_env(batch_env)
     return batch_env
 
 
