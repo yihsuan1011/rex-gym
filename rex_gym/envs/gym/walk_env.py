@@ -9,7 +9,7 @@ import numpy as np
 from .. import rex_gym_env
 from ...model import rex_constants
 from ...model.gait_planner import GaitPlanner
-from ...model.kinematics import Kinematics
+from ...model.kinematics import InverseKinematics
 
 NUM_LEGS = 4
 
@@ -117,7 +117,7 @@ class RexWalkEnv(rex_gym_env.RexGymEnv):
         self._cam_pitch = -20
         self._signal_type = signal_type
         self._gait_planner = GaitPlanner("walk")
-        self._kinematics = Kinematics()
+        self._kinematics = InverseKinematics()
         self.goal_reached = False
         self._stay_still = False
         self.is_terminating = False

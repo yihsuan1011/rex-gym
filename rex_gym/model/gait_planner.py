@@ -1,7 +1,7 @@
 import time
 import numpy as np
 
-from rex_gym.model.kinematics import Kinematics
+from rex_gym.model.kinematics import InverseKinematics
 
 
 class GaitPlanner:
@@ -95,7 +95,7 @@ class GaitPlanner:
 
     def loop(self, v, angle, w_rot, t, direction, frames=None):
         if frames is None:
-            k_obj = Kinematics()
+            k_obj = InverseKinematics()
             x_dist = k_obj.x_dist
             y_dist = k_obj.y_dist
             height = k_obj.height

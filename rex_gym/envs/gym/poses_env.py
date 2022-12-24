@@ -8,7 +8,7 @@ import random
 from gym import spaces
 import numpy as np
 from .. import rex_gym_env
-from rex_gym.model.kinematics import Kinematics
+from rex_gym.model.kinematics import InverseKinematics
 from ...model.rex import Rex
 
 STEP_PERIOD = 1.0 / 15.0  # 15 steps per second.
@@ -214,7 +214,7 @@ class RexPosesEnv(rex_gym_env.RexGymEnv):
             ])
         else:
             self.position, self.orientation = self._read_inputs()
-        kinematics = Kinematics()
+        kinematics = InverseKinematics()
         fr_angles, fl_angles, rr_angles, rl_angles, _ = kinematics.solve(self.orientation, self.position)
         signal = [
             fl_angles[0], fl_angles[1], fl_angles[2],

@@ -10,7 +10,7 @@ from rex_gym.util import pybullet_data
 
 from .. import rex_gym_env
 from ...model import rex_constants
-from ...model.kinematics import Kinematics
+from ...model.kinematics import InverseKinematics
 from ...model.rex import Rex
 
 NUM_LEGS = 4
@@ -114,7 +114,7 @@ class RexTurnEnv(rex_gym_env.RexGymEnv):
         self._signal_type = signal_type
         # we need an alternate gait, so walk will works
         self._gait_planner = GaitPlanner("walk")
-        self._kinematics = Kinematics()
+        self._kinematics = InverseKinematics()
         self._target_orient = target_orient
         self._init_orient = init_orient
         self._random_orient_target = False

@@ -86,6 +86,12 @@ class Kinematics:
                 domain = -0.99
         return domain
 
+
+
+class InverseKinematics(Kinematics):
+    def __init__(self):
+        Kinematics.__init__(self)
+
     def _solve_IK(self, coord, hip, leg, foot, right_side):
         domain = (coord[1] ** 2 + (-coord[2]) ** 2 - hip ** 2 + (-coord[0]) ** 2 - leg ** 2 - foot ** 2) / (2 * foot * leg)
         domain = self.check_domain(domain)

@@ -15,7 +15,7 @@ from .. import rex_gym_env
 
 # Radiant
 from ...model import rex_constants
-from ...model.kinematics import Kinematics
+from ...model.kinematics import InverseKinematics
 
 NUM_LEGS = 4
 NUM_MOTORS = 3 * NUM_LEGS
@@ -134,7 +134,7 @@ class RexReactiveEnv(rex_gym_env.RexGymEnv):
         self._target_position = target_position
         self._signal_type = signal_type
         self._gait_planner = GaitPlanner("gallop")
-        self._kinematics = Kinematics()
+        self._kinematics = InverseKinematics()
         self.goal_reached = False
         self._stay_still = False
         self.is_terminating = False
