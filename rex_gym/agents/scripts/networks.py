@@ -17,8 +17,30 @@ import tensorflow as tf
 _MEAN_WEIGHTS_INITIALIZER = tf.contrib.layers.variance_scaling_initializer(factor=0.1)
 _LOGSTD_INITIALIZER = tf.random_normal_initializer(-1, 1e-10)
 
+class NetworkPolicy(tf.contrib.rnn.RNNCell):
+    def __init__(self,
+                 policy_layers,
+                 value_layers,
+                 action_size,
+                 mean_weights_initializer=_MEAN_WEIGHTS_INITIALIZER,
+                 logstd_initializer=_LOGSTD_INITIALIZER):
+        self._policy_layers = policy_layers
+        self._value_layers = value_layers
+        self._action_size = action_size
+        self._mean_weights_initializer = mean_weights_initializer
+        self._logstd_initializer = logstd_initializer
+    
+    
+    @property
+    def state_size(self):
+        unused_state_size = 1
+        return unused_state_size
+    
+    @property
+    def output_size(self):
+        return self._action_size, self._action_size, tf.TensorShape([])
 
-class LinearGaussianPolicy(tf.contrib.rnn.RNNCell):
+class LinearGaussianPolicy(NetworkPolicy):
     """Indepent linear network with a tanh at the end for policy and feedforward network for the value.
 
   The policy network outputs the mean action and the log standard deviation
@@ -31,20 +53,12 @@ class LinearGaussianPolicy(tf.contrib.rnn.RNNCell):
                  action_size,
                  mean_weights_initializer=_MEAN_WEIGHTS_INITIALIZER,
                  logstd_initializer=_LOGSTD_INITIALIZER):
-        self._policy_layers = policy_layers
-        self._value_layers = value_layers
-        self._action_size = action_size
-        self._mean_weights_initializer = mean_weights_initializer
-        self._logstd_initializer = logstd_initializer
-
-    @property
-    def state_size(self):
-        unused_state_size = 1
-        return unused_state_size
-
-    @property
-    def output_size(self):
-        return self._action_size, self._action_size, tf.TensorShape([])
+        NetworkPolicy.__init__(self,
+                 policy_layers,
+                 value_layers,
+                 action_size,
+                 mean_weights_initializer=_MEAN_WEIGHTS_INITIALIZER,
+                 logstd_initializer=_LOGSTD_INITIALIZER)
 
     def __call__(self, observation, state):
         with tf.variable_scope('policy'):
@@ -63,7 +77,7 @@ class LinearGaussianPolicy(tf.contrib.rnn.RNNCell):
         return (mean, logstd, value), state
 
 
-class ForwardGaussianPolicy(tf.contrib.rnn.RNNCell):
+class ForwardGaussianPolicy(NetworkPolicy):
     """Independent feed forward networks for policy and value.
 
   The policy network outputs the mean action and the log standard deviation
@@ -76,20 +90,12 @@ class ForwardGaussianPolicy(tf.contrib.rnn.RNNCell):
                  action_size,
                  mean_weights_initializer=_MEAN_WEIGHTS_INITIALIZER,
                  logstd_initializer=_LOGSTD_INITIALIZER):
-        self._policy_layers = policy_layers
-        self._value_layers = value_layers
-        self._action_size = action_size
-        self._mean_weights_initializer = mean_weights_initializer
-        self._logstd_initializer = logstd_initializer
-
-    @property
-    def state_size(self):
-        unused_state_size = 1
-        return unused_state_size
-
-    @property
-    def output_size(self):
-        return self._action_size, self._action_size, tf.TensorShape([])
+        NetworkPolicy.__init__(self,
+                 policy_layers,
+                 value_layers,
+                 action_size,
+                 mean_weights_initializer=_MEAN_WEIGHTS_INITIALIZER,
+                 logstd_initializer=_LOGSTD_INITIALIZER)
 
     def __call__(self, observation, state):
         with tf.compat.v1.variable_scope('policy'):
@@ -110,7 +116,7 @@ class ForwardGaussianPolicy(tf.contrib.rnn.RNNCell):
         return (mean, logstd, value), state
 
 
-class RecurrentGaussianPolicy(tf.contrib.rnn.RNNCell):
+class RecurrentGaussianPolicy(NetworkPolicy):
     """Independent recurrent policy and feed forward value networks.
 
   The policy network outputs the mean action and the log standard deviation
@@ -134,10 +140,6 @@ class RecurrentGaussianPolicy(tf.contrib.rnn.RNNCell):
     @property
     def state_size(self):
         return self._cell.state_size
-
-    @property
-    def output_size(self):
-        return self._action_size, self._action_size, tf.TensorShape([])
 
     def __call__(self, observation, state):
         with tf.variable_scope('policy'):
