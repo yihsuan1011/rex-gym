@@ -16,7 +16,7 @@ def getList():
 
 register(
     id='RexGalloping-v0',
-    entry_point='rex_gym.envs.gym.gallop_env:RexReactiveEnv',
+    entry_point='rex_gym.envs.gym.gallop_env:RexGallopEnv',
     max_episode_steps=1000,
     reward_threshold=5.0,
 )

@@ -10,7 +10,7 @@ ENV_ID_TO_POLICY = {
 }
 
 ENV_ID_TO_ENV_NAMES = {
-    'gallop': 'RexReactiveEnv',
+    'gallop': 'RexGallopEnv',
     'walk': 'RexWalkEnv',
     'turn': 'RexTurnEnv',
     'standup': 'RexStandupEnv',

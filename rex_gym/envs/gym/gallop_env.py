@@ -26,7 +26,7 @@ RexPose = collections.namedtuple(
                "shoulder_angle_4, leg_angle_4, foot_angle_4")
 
 
-class RexReactiveEnv(rex_gym_env.DynamicEnv):
+class RexGallopEnv(rex_gym_env.DynamicEnv):
     """The gym environment for Rex.
 
   It simulates the locomotion of Rex, a quadruped robot. The state space
@@ -91,7 +91,7 @@ class RexReactiveEnv(rex_gym_env.DynamicEnv):
         rex_logging.proto.
     """
         self._use_angle_in_observation = use_angle_in_observation
-        super(RexReactiveEnv,
+        super(RexGallopEnv,
               self).__init__(urdf_version=urdf_version,
                              energy_weight=energy_weight,
                              accurate_motor_model_enabled=True,
@@ -143,7 +143,7 @@ class RexReactiveEnv(rex_gym_env.DynamicEnv):
         self.init_pose = rex_constants.INIT_POSES["stand"]
         if self._signal_type == 'ol':
             self.init_pose = rex_constants.INIT_POSES["stand_ol"]
-        super(RexReactiveEnv, self).reset(initial_motor_angles=self.init_pose, reset_duration=0.5)
+        super(RexGallopEnv, self).reset(initial_motor_angles=self.init_pose, reset_duration=0.5)
         self.goal_reached = False
         self._stay_still = False
         self.is_terminating = False
@@ -309,7 +309,7 @@ class RexReactiveEnv(rex_gym_env.DynamicEnv):
         t = self.rex.GetTimeSinceReset()
         self._check_target_position(t)
         action = self._signal(t, action)
-        action = super(RexReactiveEnv, self)._transform_action_to_motor_command(action)
+        action = super(RexGallopEnv, self)._transform_action_to_motor_command(action)
         return action
 
     def _out_of_trajectory(self):
